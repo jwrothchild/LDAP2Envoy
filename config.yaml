@@ -1,8 +1,0 @@
----
-binddn: 'samplebinddn'
-bindPW: 'secretPW'
-serverURL: 'sampleserver'
-baseDN: 'samplebaseDN'
-groupBase: 'ou=groups'
-usersBase: 'ou=users'
-employeeFilter: '(objectClass=*)'
