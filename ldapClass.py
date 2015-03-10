@@ -2,9 +2,7 @@ import ldap
 import yaml
 import requests
 
-##bind to ldap with config file
 class ldapFuncs():
-    """gets credentials, binds to ldap, pulls down all relevant user info"""
     def __init__(self, configfile):
         self.configfile = configfile
         self.binddn = None
@@ -18,6 +16,7 @@ class ldapFuncs():
         self.results = []
         self.filename = 'employee_list.csv'
     def loadConfig(self):
+        """Loads configuration and credentials from config.yaml"""
         with open(self.configfile) as f:
             config = yaml.load(f)
             self.binddn = config['binddn']
@@ -28,19 +27,24 @@ class ldapFuncs():
             self.employeeFilter = config['employeeFilter']
         f.close
     def doBind(self): 
+        """Attempts to initialize connection and bind to LDAP server"""
         try:
-            print("Initializing...")
+            print("Initializing connection to %s..." % self.serverURL)
             self.link = ldap.initialize("ldaps://%s" % self.serverURL)
-            print("Binding...")
-            self.link.simple_bind_s(self.binddn, self.bindPW)
-            print("Success")
         except:
-            print("whoops")
-    def getInfo(self):
-        print("searching...")  
+            print("There was a problem initializing the connection.")
         try:
+            print("Binding with credentials %s..." % self.binddn)
+            self.link.simple_bind_s(self.binddn, self.bindPW)
+        except:
+            print("There was a problem binding to %s." % self.serverURL)
+    def getInfo(self):  
+        """Searches for desired information in LDAP,
+        formats search results into list"""
+        try:
+            print("Searching LDAP for current employees...") 
             linkResult = self.link.search_s(self.baseDN, ldap.SCOPE_SUBTREE, self.employeeFilter, self.desiredAttributes)
-            print("search complete")
+            print("Creating list of current employees...")
             for dn, entry in linkResult:
                 result = ''
                 if 'givenName' in entry and 'sn' in entry:
@@ -55,16 +59,15 @@ class ldapFuncs():
                     result = result
                 self.results.append(result)
         except:
-            print("Search failed.")
+            print("There was a problem with the search.")
     def unbind(self):
-        print("unbinding...")
-        self.link.unbind()
-        print("unbound.")
+        print("Unbinding from %s." % self.serverURL)
+        self.link.unbind() 
     def writeCSV(self):
-        print("writing to CSV")
+        """Formats search result list into CSV in Envoy-accepted format"""
+        print("Writing search output to CSV...")
         target = open(self.filename, 'w')
         for r in self.results:
             target.write("%s\n" % r)
         target.close()
-        print("CSV ready.")
         
