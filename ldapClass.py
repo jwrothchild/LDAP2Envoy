@@ -1,6 +1,5 @@
 import ldap
 import yaml
-import requests
 
 class ldapFuncs():
     def __init__(self, configfile):
@@ -26,7 +25,7 @@ class ldapFuncs():
             self.usersBase = config['usersBase']
             self.employeeFilter = config['employeeFilter']
         f.close
-    def doBind(self): 
+    def doBind(self):
         """Attempts to initialize connection and bind to LDAP server"""
         try:
             print("Initializing connection to %s..." % self.serverURL)
@@ -38,11 +37,11 @@ class ldapFuncs():
             self.link.simple_bind_s(self.binddn, self.bindPW)
         except:
             print("There was a problem binding to %s." % self.serverURL)
-    def getInfo(self):  
+    def getInfo(self):
         """Searches for desired information in LDAP,
         formats search results into list"""
         try:
-            print("Searching LDAP for current employees...") 
+            print("Searching LDAP for current employees...")
             linkResult = self.link.search_s(self.baseDN, ldap.SCOPE_SUBTREE, self.employeeFilter, self.desiredAttributes)
             print("Creating list of current employees...")
             for dn, entry in linkResult:
@@ -62,7 +61,7 @@ class ldapFuncs():
             print("There was a problem with the search.")
     def unbind(self):
         print("Unbinding from %s." % self.serverURL)
-        self.link.unbind() 
+        self.link.unbind()
     def writeCSV(self):
         """Formats search result list into CSV in Envoy-accepted format"""
         print("Writing search output to CSV...")
@@ -70,4 +69,3 @@ class ldapFuncs():
         for r in self.results:
             target.write("%s\n" % r)
         target.close()
-        
