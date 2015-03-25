@@ -1,4 +1,4 @@
-import ldapClass
+import envoyLdap.py
 import requests
 import yaml
 
