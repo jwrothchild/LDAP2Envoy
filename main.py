@@ -1,4 +1,4 @@
-import envoyLdap.py
+import envoyLdap
 import requests
 import yaml
 
@@ -13,7 +13,7 @@ x.unbind()
 def getApiKey(configfile):
     with open(configfile) as f:
         config = yaml.load(f)
-        APIkey = config['Apikey']
+        APIkey = config['APIkey']
     f.close
     return APIkey
 
