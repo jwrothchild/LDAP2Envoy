@@ -1,8 +1,8 @@
-# LDAP2Envoy
+# envoyLDAP
 
-Replace config.yaml.sample with your LDAP credentials and rename config.yaml.
+A python script that creates an employee directory formatted for Envoy and uploads that directory to Envoy, using information pulled from LDAP.
 
-Modify main.py to include your Envoy API key.
+Replace config.yaml.sample with your LDAP credentials and API key  and rename config.yaml.
 
 ```
 python main.py
