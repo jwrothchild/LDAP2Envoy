@@ -20,7 +20,7 @@ def getApiKey(configfile):
 APIkey = getApiKey('config.yaml')
 
 print("Posting CSV to Envoy...")
-url = "https://signwithenvoy.com/api/configuration/employee_list?api_key=%s" %APIkey
+url = "https://app.envoy.co/api/configuration/employee_list?api_key=%s" %APIkey
 files = {'file': open('employee_list.csv', 'rb')}
 try:
     r = requests.post(url, files=files)
