@@ -4,6 +4,3 @@ A python script that creates an employee directory formatted for Envoy and uploa
 
 Replace config.yaml.sample with your LDAP credentials and API key  and rename config.yaml.
 
-```
-python main.py
-```
