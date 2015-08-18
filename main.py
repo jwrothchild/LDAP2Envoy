@@ -3,7 +3,7 @@ import requests
 import yaml
 
 
-x = envoyLdap.ldapFuncs('config.yaml')
+x = envoyLdap.ldapFuncs('/etc/config.yaml')
 x.loadConfig()
 x.doBind()
 x.getInfo()
