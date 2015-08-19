@@ -3,7 +3,7 @@ import requests
 import yaml
 
 
-x = envoyLdap.ldapFuncs('/etc/config.yaml')
+x = envoyLdap.ldapFuncs('./etc/config.yaml')
 x.loadConfig()
 x.doBind()
 x.getInfo()
@@ -17,7 +17,7 @@ def getApiKey(configfile):
     f.close
     return APIkey
 
-APIkey = getApiKey('config.yaml')
+APIkey = getApiKey('./etc/config.yaml')
 
 print("Posting CSV to Envoy...")
 url = "https://app.envoy.co/api/configuration/employee_list?api_key=%s" %APIkey
